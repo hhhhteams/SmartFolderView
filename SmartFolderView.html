@@ -1,0 +1,183 @@
+<script src="https://hhhhteams.sharepoint.com/sites/HHHHTeams/Style%20Library/js/angular/SmartFolderView/SmartFolderView.js"></script>
+<script src="https://hhhhteams.sharepoint.com/sites/HHHHTeams/Style%20Library/js/angular/Templates/HHHH-EditSharewebItem.js"></script>
+<script src="https://hhhhteams.sharepoint.com/sites/HHHHTeams/Style%20Library/js/angular/Templates/WorkspaceAddnConnectTool.js"></script>
+<div ng-controller="CompanyGroupController" class="">
+	<div class="container smart-folder">
+		<div class="row">
+		</div>
+		<div class="row form-group">
+			<div class="col-sm-12">
+				<div class="  col-sm-offset-7 col-sm-4" ng-form="validation">
+					<label class="full_width">Upload file</label>
+
+					<input ng-required="true" class="form-control" data-file="uploadFile" ng-model="uploadDocuments"
+						type="file" id="uploadDocuments" class="full_width mt-5" valid-file>
+				</div>
+				<div class="col-sm-1">
+					<label class="full_width"></label>
+					<button ng-disabled="validation.$error.required" type="button" class="btn btn-primary"
+						ng-click="uploadDocumentFile()">Submit</button>
+				</div>
+			</div>
+
+			
+			<div class="col-sm-12">
+				<div>
+					<ul class="DisplayInline" style="width:100%; cursor:pointer;">
+						<span ng-click="getParentsData()">
+							<span id="spnsubtopic">Root</span>
+							<span ng-if="Breadcrumb.length>0" class="right-icon" id="spnsubtopic">></span>
+						</span>
+						<li ng-repeat="item in Breadcrumb | orderBy:'$index':false"
+							ng-click="onClickBreadcrumb(item, $index)">
+							{{item.FileLeafRef}}
+							<span ng-if="Breadcrumb.length !=$index+1"> > </span>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 padL-0">
+			<div id="table-wrapper" class="section-event pt-0">
+				<ul class="table">
+
+					<li class="for-lis">
+						<div style="width:5%;">
+							<div style="width:80%;"></div>
+						</div>
+
+						<div style="width:30%;">
+							<div style="width:80%;" class="text">
+								<input type="text" id="searchTaskName" placeholder="Name"
+									class="width-90 searchbox_height ng-valid ng-dirty ng-touched ng-empty"
+									ng-model="searchTitle" />
+								<span class="searchclear" ng-click="clearControl('searchTitle')">X</span>
+								<span
+									class="{{orderBy=='FileLeafRef'&&!reverse?'glyphicon_active':'glyphicon'}} glyphicon glyphicon-chevron-up direction-arrow  arrow_up"
+									ng-click="sortBy('FileLeafRef', false)"></span>
+								<span
+									class="{{orderBy=='FileLeafRef'&&reverse?'glyphicon_active':'glyphicon'}} glyphicon glyphicon-chevron-down direction-arrow arrow_down"
+									ng-click="sortBy('FileLeafRef', true)"></span>
+							</div>
+						</div>
+
+						<div style="width:15%;">
+							<div style="width:80%;" class="text">
+								<input type="text" id="searchModified" placeholder="Modified"
+									class="width-90 searchbox_height ng-valid ng-dirty ng-touched ng-empty"
+									ng-model="searchModified" />
+								<span class="searchclear" ng-click="clearControl('searchModified')">X</span>
+								<span
+									class="{{orderBy=='ModifiedDate'&&!reverse?'glyphicon_active':'glyphicon'}} glyphicon glyphicon-chevron-up direction-arrow  arrow_up"
+									ng-click="sortBy('ModifiedDate', false)"></span>
+								<span
+									class="{{orderBy=='ModifiedDate'&&reverse?'glyphicon_active':'glyphicon'}} glyphicon glyphicon-chevron-down direction-arrow arrow_down"
+									ng-click="sortBy('ModifiedDate', true)"></span>
+							</div>
+
+						</div>
+						<div style="width:15%;">
+							<div style="width:80%;" class="text">
+								<input type="text" id="searchEditor" placeholder="Modified By"
+									class="width-90 searchbox_height ng-valid ng-dirty ng-touched ng-empty"
+									ng-model="searchbox.searchModifiedBy" />
+								<span class="searchclear" ng-click="clearControl('searchModifiedBy')">X</span>
+								<span
+									class="{{orderBy=='Editor.Title'&&!reverse?'glyphicon_active':'glyphicon'}} glyphicon glyphicon-chevron-up direction-arrow  arrow_up"
+									ng-click="sortBy('Editor.Title', false)"></span>
+								<span
+									class="{{orderBy=='Editor.Title'&&reverse?'glyphicon_active':'glyphicon'}} glyphicon glyphicon-chevron-down direction-arrow arrow_down"
+									ng-click="sortBy('Editor.Title', true)"></span>
+							</div>
+						</div>
+						<div style="width:14%;">
+							<div style="width:80%;" class="text">
+								<input type="text" id="searchCreated" placeholder="Created Date"
+									class="width-90 searchbox_height ng-valid ng-dirty ng-touched ng-empty"
+									ng-model="searchCreated" />
+								<span class="searchclear" ng-click="clearControl('searchCreated')">X</span>
+								<span
+									class="{{orderBy=='CreatedDate'&&!reverse?'glyphicon_active':'glyphicon'}} glyphicon glyphicon-chevron-up direction-arrow  arrow_up"
+									ng-click="sortBy('CreatedDate', false)"></span>
+								<span
+									class="{{orderBy=='CreatedDate'&&reverse?'glyphicon_active':'glyphicon'}} glyphicon glyphicon-chevron-down direction-arrow arrow_down"
+									ng-click="sortBy('CreatedDate', true)"></span>
+							</div>
+						</div>
+						<div style="width:13%;">
+
+
+							<div style="width:80%;">
+								<input id="searchAuthor" type="text" placeholder="Created By"
+									class="width-90 searchbox_height" ng-model="searchbox.searchAuthor" />
+								<span class="searchclear" ng-click="clearControl('searchAuthor')">X</span>
+								<span
+									class="{{orderBy=='Author.Title'&&!reverse?'glyphicon_active':'glyphicon'}}  glyphicon-chevron-up direction-arrow arrow_up"
+									ng-click="sortBy('Author.Title', false)"></span>
+								<span
+									class="{{orderBy=='Author.Title'&&reverse?'glyphicon_active':'glyphicon'}}  glyphicon-chevron-down direction-arrow arrow_down"
+									ng-click="sortBy('Author.Title', true)"></span>
+							</div>
+						</div>
+
+					</li>
+					<div class="container-new">
+						<li class="for-lis tdrows"
+							ng-repeat="item in filter = (Parents | orderBy:orderBy:reverse | filter:filterAuthor | filter:filterModifiedBy | filter:{FileLeafRef:searchTitle,Modified:searchModified,Created:searchCreated})">
+							<div style="width:5%">
+									
+								<a ng-href="{{item.ServerRelativeUrl}}" ng-click="0(item)"
+									style="width:40%; cursor:pointer;">
+									<img ng-src="/_layouts/15/images/folder.gif"
+										ng-if="item.FileSystemObjectType =='1'">
+								</a>
+								<a ng-if="item.FileSystemObjectType =='0'">
+									<img ng-if="item.File_x0020_Type=='pdf'"
+										ng-src="https://www.shareweb.ch/site/Joint/SiteCollectionImages/ICONS/24/icon_pdf_16.jpg">
+									<img ng-if="item.File_x0020_Type   != 'flv' && item.File_x0020_Type  != 'js' && item.File_x0020_Type   != 'css' && item.File_x0020_Type    != 'zip' && item.File_x0020_Type   != 'aspx' && item.File_x0020_Type  != 'mp4' && item.File_x0020_Type  != 'pdf' && item.File_x0020_Type  != 'jpg' && item.File_x0020_Type  != 'png' && item.File_x0020_Type  != 'gif'"
+										ng-src="/_layouts/15/images/ic{{item.File_x0020_Type}}.png">
+									<img ng-if="item.File_x0020_Type  == 'flv' || item.File_x0020_Type  == 'js'||  item.File_x0020_Type  == 'css' || item.File_x0020_Type   == 'zip' || item.File_x0020_Type   == 'aspx' || item.File_x0020_Type  == 'mp4' || item.File_x0020_Type   == 'jpg' || item.File_x0020_Type  == 'png' || item.File_x0020_Type  == 'gif'"
+										ng-src="/_layouts/15/images/icgen.gif?rev=23">
+								</a>
+							</div>
+							<div ng-if="item.FileSystemObjectType =='0'" style="width:30%; cursor:pointer;"><a
+									target="_blank" ng-href="{{item.EncodedAbsUrl}}?web=1">{{item.FileLeafRef}}</a>
+							</div>
+							<div ng-if="item.FileSystemObjectType =='1'" ng-click="clickFolder(item)"
+								style="width:30%; cursor:pointer;">{{item.FileLeafRef}} ({{item.childs.length}})   
+									
+							</div>
+							<!--<td>{{item.Title}}</td>-->
+							<div style="width: 15%;">{{item.Modified }}</div>
+							<div  style="width: 15%;">{{item.Editor.Title}}</div>
+							<div  style="width: 14%;">{{item.Created }}</div>
+							<div  style="width: 13%;">{{item.Author.Title}}</div>
+							<div class="icontype display_hide">
+								<a ng-if="item.FileSystemObjectType =='0' && isOwner==true" class="hreflink ng-scope"
+									ng-click="editSharewebItem(item.Id, selectedsite, 'Document')"> <img
+										ng-src="/_layouts/images/edititem.gif" src="/_layouts/images/edititem.gif"> </a>
+							</div>
+							<div>
+								<a class="hreflink"
+									ng-if="isOwner==true && item.FileSystemObjectType =='1' && item.childs.length==0"
+									ng-click="removeItem(item,taskUser)"> <img ng-src="/_layouts/images/delete.gif"
+										src="/_layouts/images/delete.gif"></a></div>
+						</li>
+						<p ng-show="!Parents.length">There are no files available under this folder.</p>
+					</div>
+
+				</ul>
+			</div>
+		</div>
+
+
+	</div>
+	<div id="AncToolLightVersion" class="modal fade in " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display: none;">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<workspace-add-connect-tool webpartid="'WorkspaceAddAndConnectToolId'"></workspace-add-connect-tool>
+			</div>
+		</div>
+	</div>
+</div>
